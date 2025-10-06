@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Diamond UC — Secure Diamonds & UC</title>
+  <link rel="icon" href="logo.png" type="image/png" />
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg-900:#061226; --bg-800:#071a2b; --card:#071827; --accent:#0ea5ff; --glass: rgba(255,255,255,0.04);
+      --muted:#9fb0c9; --glass-2: rgba(255,255,255,0.02);
+      font-family: "Inter", "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:linear-gradient(180deg,var(--bg-900),#041026);color:#eaf4ff;-webkit-font-smoothing:antialiased}
+    .topbar{
+      background: linear-gradient(90deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));
+      border-bottom:1px solid rgba(255,255,255,0.03);
+      backdrop-filter: blur(6px);
+    }
+    .brand {
+      display:flex;gap:.75rem;align-items:center;font-weight:800;color:white;text-transform:uppercase;letter-spacing:.6px
+    }
+    .brand svg{width:44px;height:44px;border-radius:10px;box-shadow:0 10px 30px rgba(14,165,255,0.08)}
+    .searchbar{
+      background:var(--glass);border-radius:12px;padding:6px 10px;display:flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,0.03)
+    }
+    .searchbar input{background:transparent;border:0;outline:0;color:inherit;font-weight:600}
+    .navlink{color:var(--muted);font-weight:600}
+    .navlink:hover{color:white;text-decoration:none}
+    .btn-primary-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--accent);font-weight:700;border-radius:999px;padding:.45rem .9rem}
+    .btn-solid{background:linear-gradient(90deg,var(--accent),#60a5fa);color:#031623;border-radius:999px;padding:.5rem 1rem;font-weight:800}
+    .hero{
+      padding:72px 18px 36px;
+      background-image: url('bg-hero.jpg');
+      background-size:cover;background-position:center;border-radius:12px;margin:14px;
+      position:relative;overflow:hidden;
+    }
+    .hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,7,14,0.28),rgba(2,8,18,0.6))}
+    .hero-inner{position:relative;z-index:4;display:flex;gap:18px;align-items:center;flex-direction:column;text-align:center;max-width:980px;margin:0 auto}
+    .eyebrow{display:inline-block;background:rgba(255,255,255,0.03);padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,0.03);color:var(--muted);font-weight:700;margin-bottom:12px}
+    h1{font-family:'Poppins',sans-serif;font-size:28px;margin:0;line-height:1.05}
+    p.lead{color:var(--muted);margin:12px 0 20px}
+    .hero-cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+    .pack-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:16px}
+    @media(min-width:768px){.hero-inner{flex-direction:row;text-align:left;justify-content:space-between}.pack-grid{grid-template-columns:repeat(3,1fr)} h1{font-size:40px}}
+    .card-pkg{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:14px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 12px 40px rgba(2,6,23,0.6);display:flex;flex-direction:column;gap:10px}
+    .pkg-top{display:flex;align-items:center;gap:12px}
+    .pkg-ico{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,#1fb6ff,#0ea5ff);display:grid;place-items:center;color:#04202f;font-weight:800;box-shadow:0 8px 30px rgba(14,165,255,0.12)}
+    .pkg-title{font-weight:800}
+    .pkg-price{font-weight:900;font-size:20px}
+    .pkg-cta{margin-top:auto;display:flex;gap:8px}
+    .char-row{display:flex;gap:12px;overflow:auto;padding-bottom:6px}
+    .char-card{min-width:150px;background:var(--card);border-radius:12px;padding:10px;border:1px solid rgba(255,255,255,0.03);display:flex;flex-direction:column;gap:8px;align-items:center}
+    .char-image{width:110px;height:110px;border-radius:12px;overflow:hidden;display:grid;place-items:center;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent)}
+    .char-image img{width:100%;height:100%;object-fit:cover}
+    .char-name{font-weight:800}
+    .glow {box-shadow:0 20px 60px rgba(14,165,255,0.08)}
+    .float{animation:float 4s ease-in-out infinite}
+    @keyframes float{0%{transform:translateY(0)}50%{transform:translateY(-8px)}100%{transform:translateY(0)}}
+    .loader-wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#031124,#020617);z-index:9999}
+    .loader-inner{width:280px;padding:22px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:16px;text-align:center;border:1px solid rgba(255,255,255,0.03)}
+    .progress{height:10px;background:rgba(255,255,255,0.04);border-radius:999px;overflow:hidden;margin-top:12px}
+    .progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),#60a5fa);border-radius:999px}
+    footer{padding:20px;color:var(--muted);text-align:center;font-size:13px;margin-top:22px}
+    .small-muted{color:var(--muted);font-size:13px}
+    .pill{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.02);font-weight:700}
+    #characters {
+  padding: 15px;
+}
+#characters h3 {
+  font-size: 1.3rem;
+}
+.char-card {
+  transition: all 0.3s ease;
+}
+.char-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+}
+.char-image img {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+}
+
+/* ✅ For small Android phones (width ≤ 360px) */
+@media (max-width: 360px) {
+  #characters h3 {
+    font-size: 1.1rem;
+  }
+  .pill {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+  }
+  .char-image img {
+    width: 70px;
+    height: 70px;
+  }
+  .char-name {
+    font-size: 0.9rem;
+  }
+  .small-muted {
+    font-size: 0.7rem;
+  }
+}
+
+/* ✅ For normal phones (361px–480px: Samsung Galaxy, Androids) */
+@media (min-width: 361px) and (max-width: 480px) {
+  .char-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .char-card {
+    width: 46%;
+    margin: 5px 2%;
+  }
+  .char-image img {
+    width: 85px;
+    height: 85px;
+  }
+  .char-name {
+    font-size: 1rem;
+  }
+}
+
+/* ✅ For large phones & small tablets (481px–768px: iPhones, big Androids) */
+@media (min-width: 481px) and (max-width: 768px) {
+  #characters {
+    padding: 20px;
+  }
+  .char-card {
+    width: 45%;
+    margin: 10px 2.5%;
+  }
+  .char-image img {
+    width: 100px;
+    height: 100px;
+  }
+  .char-name {
+    font-size: 1.1rem;
+  }
+}
+
+/* ✅ For tablets and up (768px–1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .char-card {
+    width: 22%;
+    margin: 10px 1%;
+  }
+  .char-image img {
+    width: 110px;
+    height: 110px;
+  }
+  .char-name {
+    font-size: 1.2rem;
+  }
+}
+  </style>
+</head>
+<body>
+
+  <div id="appLoader" class="loader-wrap" aria-hidden="false">
+    <div class="loader-inner">
+      <div style="display:flex;gap:12px;align-items:center;justify-content:center">
+        <svg width="56" height="56" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 22 L32 6 L56 22 L44 58 H20 L8 22 Z" fill="white" opacity="0.06"/>
+          <path d="M32 8 L52 22 L44 54 H20 L12 22 L32 8 Z" stroke="white" stroke-opacity="0.14" stroke-width="1.4" fill="none"/>
+        </svg>
+      </div>
+      <div style="margin-top:12px;font-weight:800">DIAMOND UC</div>
+      <div class="small-muted" style="margin-top:6px">Secure delivery • No passwords required</div>
+      <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" style="margin-top:12px">
+        <i id="bar"></i>
+      </div>
+    </div>
+  </div>
+
+  <header class="topbar sticky-top">
+    <div class="container d-flex align-items-center justify-content-between py-2">
+      <div class="d-flex align-items-center gap-3">
+        <a class="brand" href="index.html" aria-label="Diamond UC home">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs><linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#1fb6ff"/><stop offset="1" stop-color="#0ea5ff"/></linearGradient></defs>
+            <rect width="64" height="64" rx="10" fill="url(#g1)"/>
+            <path d="M10 26 L32 10 L54 26 L44 58 H20 L10 26 Z" fill="rgba(2,6,10,0.06)"/>
+          </svg>
+          <div style="display:flex;flex-direction:column;line-height:1">
+            <span style="font-size:13px">DIAMOND</span>
+            <span style="font-size:11px;color:var(--muted);font-weight:700">UC</span>
+          </div>
+        </a>
+
+        <div class="d-none d-md-flex align-items-center gap-3">
+          <a class="navlink" href="#packages">Packages</a>
+          <a class="navlink" href="#characters">Characters</a>
+          <a class="navlink" href="#how">How it Works</a>
+        </div>
+      </div>
+
+      <div class="d-flex align-items-center gap-3">
+        <div class="searchbar d-none d-sm-flex" role="search" aria-label="Search player">
+          <i class="fa-solid fa-magnifying-glass" style="opacity:.9"></i>
+          <input id="quickSearch" placeholder="Search by player name / ID / email" aria-label="Search player" />
+        </div>
+
+        <button id="btnTrial" class="btn btn-primary-ghost d-none d-sm-inline">Free Trial</button>
+        <button id="btnGet" class="btn btn-solid">Get Diamonds</button>
+
+        <button class="btn btn-sm btn-transparent d-md-none" id="openSearchMobile" title="Search">
+          <i class="fa-solid fa-magnifying-glass" style="color:var(--muted)"></i>
+        </button>
+      </div>
+    </div>
+
+    <div id="searchMobile" style="display:none;padding:10px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent)">
+      <div class="container">
+        <div class="searchbar w-100"><i class="fa-solid fa-magnifying-glass"></i><input id="mobSearchInput" placeholder="Search player name / ID" /></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero mt-3">
+      <div class="hero-inner">
+        <div style="max-width:560px">
+          <div class="eyebrow">Limited Free Offer • 3 Diamonds</div>
+          <h1>Fast, Trusted Delivery for Free Fire Diamonds & PUBG UC</h1>
+          <p class="lead">Choose a package, verify ownership with a one-time code, and receive delivery. We never ask for account passwords.</p>
+          <div class="hero-cta">
+            <button class="btn btn-solid" id="ctaShop">Browse Packages</button>
+            <button class="btn btn-primary-ghost" id="ctaHow">How It Works</button>
+          </div>
+          <div style="margin-top:14px" class="small-muted">Secure payments • Official partners (use publisher APIs) • 24/7 support</div>
+        </div>
+
+        <div style="min-width:260px;max-width:420px">
+          <div class="card-pkg glow float">
+            <div class="pkg-top">
+              <div class="pkg-ico">3</div>
+              <div>
+                <div class="pkg-title">Starter Pack</div>
+                <div class="small-muted">3 Diamonds • Free</div>
+              </div>
+            </div>
+            <div class="pkg-cta">
+              <div class="pkg-price">Free</div>
+              <div style="margin-left:auto"><button class="btn btn-solid btn-sm" onclick="openCheckout('starter')">Claim</button></div>
+            </div>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="card-pkg">
+            <div class="pkg-top">
+              <div class="pkg-ico">50</div>
+              <div>
+                <div class="pkg-title">Pro Pack</div>
+                <div class="small-muted">50 Diamonds • Instant</div>
+              </div>
+            </div>
+            <div class="pkg-cta">
+              <div class="pkg-price">$2.99</div>
+              <div style="margin-left:auto"><button class="btn btn-solid btn-sm" onclick="openCheckout('pro')">Buy</button></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div style="position:absolute;right:-40px;bottom:-40px;opacity:.08;transform:rotate(-12deg)">
+        <svg width="340" height="340" viewBox="0 0 64 64"><rect width="64" height="64" rx="10" fill="#0ea5ff"/></svg>
+      </div>
+    </section>
+<section id="characters" style="margin-top:12px">
+  <div class="d-flex align-items-center justify-content-between mb-2">
+    <h3 style="margin:0" class="fw-bold text-light">Popular Characters</h3>
+    <div class="pill bg-primary text-white px-3 py-1 rounded-pill shadow">Animated skins & icons</div>
+  </div>
+
+  <div class="char-row row g-3">
+    <!-- Card 1 -->
+    <div class="col-6 col-md-3">
+      <div class="char-card text-center p-3 rounded-4 shadow-lg bg-dark text-white animate__animated animate__fadeInUp animate__delay-1s">
+        <div class="char-image mb-2"><img loading="lazy" src="bird.png" alt="Character 1" class="img-fluid rounded-circle border border-info shadow-sm"></div>
+        <div class="char-name fs-5 fw-semibold">Phoenix</div>
+        <div class="small-muted text-secondary">Free Fire • Assault</div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="col-6 col-md-3">
+      <div class="char-card text-center p-3 rounded-4 shadow-lg bg-dark text-white animate__animated animate__fadeInUp animate__delay-2s">
+        <div class="char-image mb-2"><img loading="lazy" src="sheriff-badge.png" alt="Character 2" class="img-fluid rounded-circle border border-warning shadow-sm"></div>
+        <div class="char-name fs-5 fw-semibold">Ranger</div>
+        <div class="small-muted text-secondary">PUBG • Marksman</div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="col-6 col-md-3">
+      <div class="char-card text-center p-3 rounded-4 shadow-lg bg-dark text-white animate__animated animate__fadeInUp animate__delay-3s">
+        <div class="char-image mb-2"><img loading="lazy" src="snake.png" alt="Character 3" class="img-fluid rounded-circle border border-success shadow-sm"></div>
+        <div class="char-name fs-5 fw-semibold">Viper</div>
+        <div class="small-muted text-secondary">Free Fire • Stealth</div>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="col-6 col-md-3">
+      <div class="char-card text-center p-3 rounded-4 shadow-lg bg-dark text-white animate__animated animate__fadeInUp animate__delay-4s">
+        <div class="char-image mb-2"><img loading="lazy" src="french-bulldog.png" alt="Character 4" class="img-fluid rounded-circle border border-danger shadow-sm"></div>
+        <div class="char-name fs-5 fw-semibold">Bulldog</div>
+        <div class="small-muted text-secondary">PUBG • Tank</div>
+      </div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="col-6 col-md-3">
+      <div class="char-card text-center p-3 rounded-4 shadow-lg bg-dark text-white animate__animated animate__fadeInUp animate__delay-5s">
+        <div class="char-image mb-2"><img loading="lazy" src="ghost.png" alt="Character 5" class="img-fluid rounded-circle border border-primary shadow-sm"></div>
+        <div class="char-name fs-5 fw-semibold">Ghost</div>
+        <div class="small-muted text-secondary">PUBG • Commando</div>
+      </div>
+    </div>
+
+    <!-- Card 6 -->
+    <div class="col-6 col-md-3">
+      <div class="char-card text-center p-3 rounded-4 shadow-lg bg-dark text-white animate__animated animate__fadeInUp animate__delay-6s">
+        <div class="char-image mb-2"><img loading="lazy" src="icons8-shadow-48.png" alt="Character 6" class="img-fluid rounded-circle border border-light shadow-sm"></div>
+        <div class="char-name fs-5 fw-semibold">Shadow</div>
+        <div class="small-muted text-secondary">Free Fire • Stealth Pro</div>
+      </div>
+    </div>
+
+    <!-- Card 7 -->
+    <div class="col-6 col-md-3">
+      <div class="char-card text-center p-3 rounded-4 shadow-lg bg-dark text-white animate__animated animate__fadeInUp animate__delay-7s">
+        <div class="char-image mb-2"><img loading="lazy" src="eagle.png" alt="Character 7" class="img-fluid rounded-circle border border-warning shadow-sm"></div>
+        <div class="char-name fs-5 fw-semibold">Falcon</div>
+        <div class="small-muted text-secondary">PUBG • Sniper</div>
+      </div>
+    </div>
+
+    <!-- Card 8 -->
+    <div class="col-6 col-md-3">
+      <div class="char-card text-center p-3 rounded-4 shadow-lg bg-dark text-white animate__animated animate__fadeInUp animate__delay-8s">
+        <div class="char-image mb-2"><img loading="lazy" src="prometheus.png" alt="Character 8" class="img-fluid rounded-circle border border-info shadow-sm"></div>
+        <div class="char-name fs-5 fw-semibold">Titan</div>
+        <div class="small-muted text-secondary">Free Fire • Power Unit</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+    <section id="how" style="margin-top:22px">
+      <h3>How it Works</h3>
+      <div class="small-muted">1) Choose package • 2) Verify via email/SMS OTP • 3) Secure payment (if paid) • 4) Delivery to your in-game ID</div>
+    </section>
+
+    <footer>
+      <div>© <strong>Diamond UC</strong> — Secure Delivery • No Passwords • Official Partnerships Required</div>
+      <div class="small-muted" style="margin-top:6px">Privacy • T&C • Support: support@diamonduc.com</div>
+    </footer>
+  </main>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    $(function(){
+      let p = 0;
+      const bar = $('#bar');
+      const loader = $('#appLoader');
+      const prog = setInterval(()=> {
+        p += Math.floor(Math.random()*12)+8;
+        if (p>=100) { p=100; bar.css('width','100%'); clearInterval(prog); setTimeout(()=>loader.fadeOut(350),450); }
+        else bar.css('width', p+'%');
+      },260);
+
+      $('#openSearchMobile').on('click',()=>$('#searchMobile').slideToggle(160));
+      $('#ctaShop, #btnGet, #ctaHow').on('click', function(e){
+        e.preventDefault();
+        $('html,body').animate({scrollTop: $('#packages').offset().top - 80}, 520);
+      });
+
+      $('#quickSearch, #mobSearchInput').on('keypress', function(e){
+        if(e.which==13) {
+          const q = $(this).val().trim();
+          if(!q) return;
+          alert('Searching: '+q);
+        }
+      });
+    });
+
+    function openCheckout(pkg){
+      const data = {pkg:pkg};
+      alert('Open checkout for '+pkg+'. (Integrate /api/create-order + OTP + payment gateway)');
+    }
+    
+function openCheckout(pkg) {
+  if (pkg === 'starter') {
+    window.location.href = "claim.html";
+  }
+}
+ function openCheckout(pkgType) {
+    // Save package info in local storage so we can access it on the next page
+    localStorage.setItem('selectedPackage', pkgType);
+
+    // Redirect to the buy page
+    window.location.href = 'claim.html';
+  }
+</script>
+
+  
+</body>
+</html>
